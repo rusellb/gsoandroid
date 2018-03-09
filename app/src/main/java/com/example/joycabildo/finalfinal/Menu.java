@@ -8,8 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -18,8 +16,6 @@ import com.google.zxing.integration.android.IntentResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.net.URL;
 
 public class Menu extends AppCompatActivity {
 
@@ -92,6 +88,16 @@ public class Menu extends AppCompatActivity {
     public class Parse extends AsyncTask<String, Void, Void> {
 
         @Override
+        protected void onPreExecute() {
+            Context context = getApplicationContext();
+            CharSequence text = "Fetching data";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+
+        @Override
         protected Void doInBackground(String... urls) {
             try {
                 Reader read = new Reader();
@@ -102,8 +108,20 @@ public class Menu extends AppCompatActivity {
                 department = object.getString("department");
             } catch (JSONException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void v) {
+            Intent intent = new Intent(getBaseContext(), item_det.class);
+            intent.putExtra("dept_id", dept_id);
+            intent.putExtra("rcc", rcc);
+            intent.putExtra("department", department);
+            startActivity(intent);
         }
     }
     String dept_id = "";

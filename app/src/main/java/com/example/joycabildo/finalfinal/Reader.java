@@ -1,5 +1,7 @@
 package com.example.joycabildo.finalfinal;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 
 import java.io.BufferedReader;
@@ -25,7 +27,7 @@ public class Reader {
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = is.readLine()) != null) {
-                sb.append(line + "\n");
+                sb.append(line);
             }
             is.close();
             json = sb.toString();
