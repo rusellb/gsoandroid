@@ -10,7 +10,7 @@ public class item_det extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_det);
-        String data = getIntent().getStringExtra("url");
+        String data = getIntent().getStringExtra("department");
         EditText editText = (EditText)findViewById(R.id.editText6);
         editText.setText(data);
     }

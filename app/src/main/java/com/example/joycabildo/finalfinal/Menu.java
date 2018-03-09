@@ -3,6 +3,7 @@ package com.example.joycabildo.finalfinal;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -17,6 +18,8 @@ import com.google.zxing.integration.android.IntentResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.net.URL;
 
 public class Menu extends AppCompatActivity {
 
@@ -74,12 +77,36 @@ public class Menu extends AppCompatActivity {
                 Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_SHORT).show();
             } else {
                 String url = result.getContents();
+                new Parse().execute(url);
                 Intent intent = new Intent(getBaseContext(), item_det.class);
-                intent.putExtra("url", url);
+                intent.putExtra("dept_id", dept_id);
+                intent.putExtra("rcc", rcc);
+                intent.putExtra("department", department);
                 startActivity(intent);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    public class Parse extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... urls) {
+            try {
+                Reader read = new Reader();
+                JSONArray json = read.getData(urls[0]);
+                JSONObject object = json.getJSONObject(0);
+                dept_id = object.getString("dept_id");
+                rcc = object.getString("res_center_code");
+                department = object.getString("department");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+    String dept_id = "";
+    String rcc = "";
+    String department = "";
 }
