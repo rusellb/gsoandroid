@@ -4,20 +4,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class item_det extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_det);
-        String dept_id = getIntent().getStringExtra("dept_id");
-        String rcc = getIntent().getStringExtra("rcc");
-        String department = getIntent().getStringExtra("department");
+
+        String date = getIntent().getStringExtra("date");
+        String item = getIntent().getStringExtra("item");
+        String description = getIntent().getStringExtra("description");
+        String unit = getIntent().getStringExtra("unit");
         EditText editText6 = (EditText)findViewById(R.id.editText6);
-        editText6.setText(dept_id);
+        editText6.setText(date);
         EditText editText7 = (EditText)findViewById(R.id.editText7);
-        editText7.setText(rcc);
-        EditText editText16 = (EditText)findViewById(R.id.editText16);
-        editText16.setText(department);
+        editText7.setText(item);
+        EditText editText18 = (EditText)findViewById(R.id.editText18);
+        editText18.setText(description);
+        EditText editText19 = (EditText)findViewById(R.id.editText19);
+        editText19.setText(unit);
     }
 }

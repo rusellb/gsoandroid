@@ -17,6 +17,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class Menu extends AppCompatActivity {
 
     private CardView scan_btn;
@@ -24,6 +27,7 @@ public class Menu extends AppCompatActivity {
     private CardView history_btn;
     private CardView settings_btn;
     private CardView logout_btn;
+    Database database = new Database(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +54,9 @@ public class Menu extends AppCompatActivity {
         profile_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, Profile.class);
-                startActivity(intent);
+                String user =  getIntent().getStringExtra("username");
+                link = "http://192.168.43.8/imsqrgso/users/getmobileuser/" + user;
+                new User().execute(link);
             }
         });
 
@@ -72,13 +77,8 @@ public class Menu extends AppCompatActivity {
             if (result.getContents() == null) {
                 Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_SHORT).show();
             } else {
-                String url = result.getContents();
+                url = result.getContents();
                 new Parse().execute(url);
-                Intent intent = new Intent(getBaseContext(), item_det.class);
-                intent.putExtra("dept_id", dept_id);
-                intent.putExtra("rcc", rcc);
-                intent.putExtra("department", department);
-                startActivity(intent);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -103,9 +103,9 @@ public class Menu extends AppCompatActivity {
                 Reader read = new Reader();
                 JSONArray json = read.getData(urls[0]);
                 JSONObject object = json.getJSONObject(0);
-                dept_id = object.getString("dept_id");
-                rcc = object.getString("res_center_code");
-                department = object.getString("department");
+                item = object.getString("item");
+                description = object.getString("description");
+                unit = object.getString("unit");
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -117,14 +117,72 @@ public class Menu extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void v) {
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            String date = df.format(c.getTime());
+
+            database.insertItemDetail(date, item, "dummy", "dummy", description, unit, "dummy", "dummy", url);
+
             Intent intent = new Intent(getBaseContext(), item_det.class);
-            intent.putExtra("dept_id", dept_id);
-            intent.putExtra("rcc", rcc);
-            intent.putExtra("department", department);
+            intent.putExtra("date", date);
+            intent.putExtra("item", item);
+            intent.putExtra("description", description);
+            intent.putExtra("unit", unit);
             startActivity(intent);
         }
     }
-    String dept_id = "";
-    String rcc = "";
+    String item = "";
+    String description = "";
+    String unit = "";
+    String url = "";
+
+    public class User extends AsyncTask<String, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            Context context = getApplicationContext();
+            CharSequence text = "Fetching data";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+
+        @Override
+        protected Void doInBackground(String... urls) {
+            try {
+                Reader read = new Reader();
+                JSONArray json = read.getData(urls[0]);
+                JSONObject object = json.getJSONObject(0);
+                name = object.getString("name");
+                email = object.getString("email");
+                contact = object.getString("contactno");
+                department = object.getString("department");
+                position = object.getString("position");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void v) {
+            Intent intent = new Intent(getBaseContext(), Profile.class);
+            intent.putExtra("name", name);
+            intent.putExtra("email", email);
+            intent.putExtra("contactno", contact);
+            intent.putExtra("department", department);
+            intent.putExtra("position", position);
+            startActivity(intent);
+        }
+    }
+
+    String name = "";
+    String email = "";
+    String contact = "";
     String department = "";
+    String position = "";
+    String link = "";
 }
