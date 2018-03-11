@@ -4,9 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 public class item_det extends AppCompatActivity {
 
     @Override
@@ -18,7 +15,7 @@ public class item_det extends AppCompatActivity {
         String item = getIntent().getStringExtra("item");
         String description = getIntent().getStringExtra("description");
         String unit = getIntent().getStringExtra("unit");
-        EditText editText6 = (EditText)findViewById(R.id.editText6);
+        EditText editText6 = (EditText)findViewById(R.id.hist);
         editText6.setText(date);
         EditText editText7 = (EditText)findViewById(R.id.editText7);
         editText7.setText(item);

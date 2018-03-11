@@ -2,6 +2,7 @@ package com.example.joycabildo.finalfinal;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,11 @@ public class Login extends AppCompatActivity {
     String username;
     String password;
 
+   /* public static final String MyPREFERENCES = "Session";
+    public static final String Name = "nameKey";
+    public static final String Email = "passwordKey";
+    SharedPreferences sharedpreferences;*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +46,7 @@ public class Login extends AppCompatActivity {
         login_btn = (Button) findViewById(R.id.login_btn);
         etUsername = (EditText) findViewById(R.id.name);
         etPassword = (EditText) findViewById(R.id.email);
+        //sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         login_btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -144,6 +151,12 @@ public class Login extends AppCompatActivity {
                 /* Here launching another activity when login successful. If you persist login state
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
+                /*SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                editor.putString(Name, username);
+                editor.putString(Email, password);
+                editor.commit();*/
+
                 Intent intent = new Intent(Login.this,Menu.class);
                 intent.putExtra("username", username);
                 startActivity(intent);

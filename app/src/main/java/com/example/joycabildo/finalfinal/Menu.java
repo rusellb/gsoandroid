@@ -3,6 +3,7 @@ package com.example.joycabildo.finalfinal;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -66,6 +67,16 @@ public class Menu extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(context, History.class);
                 startActivity(intent);
+            }
+        });
+        logout_btn = (CardView) findViewById(R.id.logout_btn);
+        logout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+                //SharedPreferences.Editor editor = sharedpreferences.edit();
+                //editor.clear();
+                //editor.commit();
             }
         });
     }

@@ -46,9 +46,9 @@ public class History extends AppCompatActivity {
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Intent i = new Intent(getApplicationContext(), History_item_det.class);
-                //startActivity(i);
-                Toast.makeText(view.getContext(), "temp", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getBaseContext(), History_item_det.class);
+                i.putExtra("id", position+1);
+                startActivity(i);
             }
         });
     }

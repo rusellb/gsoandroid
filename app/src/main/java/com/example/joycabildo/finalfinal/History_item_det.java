@@ -16,15 +16,18 @@ public class History_item_det extends AppCompatActivity {
         setContentView(R.layout.activity_history_item_det);
 
         int id = getIntent().getIntExtra("id", 0);
-        data = database.getData(1);
+        data = database.getData(id);
+        data.moveToFirst();
 
         String itemName = data.getString(data.getColumnIndex("itemname"));
+        String unitCost = data.getString(data.getColumnIndex("unitcost"));
+        String description = data.getString(data.getColumnIndex("description"));
 
-        EditText editText6 = (EditText)findViewById(R.id.editText6);
-        editText6.setText(itemName);
-        /*EditText editText17 = (EditText)findViewById(R.id.editText17);
-        editText17.setText(date);
+        EditText hist = (EditText)findViewById(R.id.hist);
+        hist.setText(itemName);
+        EditText editText17 = (EditText)findViewById(R.id.editText17);
+        editText17.setText(unitCost);
         EditText editText21 = (EditText)findViewById(R.id.editText21);
-        editText21.setText(date);*/
+        editText21.setText(description);
     }
 }
